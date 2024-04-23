@@ -11,7 +11,7 @@ const ClockTimer = ({ count, running, setCount }) => {
         }
 
         return () => clearInterval(timerRef.current);
-    }, [running]);
+    }, [running, setCount]);
     return (
         <div>
             <Clock time={count} />

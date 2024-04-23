@@ -11,11 +11,7 @@ const ExclamationModal = ({ isOpen, onClose }) => {
         <div>
             <div className="modal-overlay">
                 <div className="modal-content">
-                    <IoClose
-                        onClick={onClose}
-                        className="modal-close"
-                        aria-label="Close modal"
-                    />
+                    <IoClose onClick={onClose} className="modal-close" aria-label="Close modal" />
 
                     <p className='modal-title'>Memorize this picture! </p>
                     <p className='modal-body'>

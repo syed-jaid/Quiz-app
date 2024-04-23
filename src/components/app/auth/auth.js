@@ -15,6 +15,7 @@ const Auth = ({ user }) => {
             localStorage.setItem('userLogIn', true)
         }
     }, [])
+
     return (
         <>
             <p className='text-[30px] text-black text-center'>

@@ -29,7 +29,6 @@ const HomePage = () => {
         <div className='bg-[#E3E3E1]'>
             <div className='home-main-div'>
 
-                {/* Settings button  */}
                 <IoMdSettings
                     onClick={() => setShowSettings(!showSettings)}
                     className={`settings-icon ${showSettings ? 'rotate-icon-click' : 'rotate-icon'}`}
@@ -38,7 +37,6 @@ const HomePage = () => {
                 {showSettings && <SettingsItems {...{ setShowSettings }} />}
 
                 <div className="flex-container">
-                    {/* Logo  */}
                     <div className="logo-container">
                         <img
                             className="logo-image"
@@ -47,17 +45,13 @@ const HomePage = () => {
                         />
                     </div>
 
-                    {/* Title and Description */}
-                    <h1 className="header">
-                        Teach Me To Count!
-                    </h1>
+                    <h1 className="header">Teach Me To Count!</h1>
                     <p className="paragraph">
                         Get 3 Chances To Guess The Right Answers.
                         <br className="br-hidden" />{' '}
                         Learn Counting Now...!
                     </p>
 
-                    {/* All buttons */}
                     <div className="button-container">
                         {result?.game_data?.game?.status === 'COMPLETED' ?
                             ''
@@ -66,7 +60,7 @@ const HomePage = () => {
                                 How To Play
                             </button>
                         }
-                        {userLogIn ? <>
+                        {userLogIn ?
                             <Authenticator>
                                 {({ signOut, user }) => (
                                     <button
@@ -81,13 +75,14 @@ const HomePage = () => {
                                     </button>
                                 )}
                             </Authenticator>
-                        </>
                             :
-                            <button className="button" onClick={() => handleNavigate('/auth')}>
+                            <button
+                                className="button"
+                                onClick={() => handleNavigate('/auth')}
+                            >
                                 Log In
                             </button>
                         }
-
                         <button
                             className="button special-button"
                             onClick={() => handleNavigate('/play')}
@@ -96,13 +91,11 @@ const HomePage = () => {
                         </button>
                     </div>
 
-                    {/* Today's Date */}
                     <p className="date-display">
                         Today's Date: {new Date().toLocaleDateString()}
                     </p>
                 </div>
             </div>
-            {/* modal  */}
             <HowToPlayModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
     );

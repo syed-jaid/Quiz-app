@@ -6,16 +6,14 @@ import Auth from './components/app/auth/auth';
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/play" element={<Play />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="*" element={<HomePage />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/play" element={<Play />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -10,11 +10,7 @@ const HowToPlayModal = ({ isOpen, onClose }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <IoClose
-                    onClick={onClose}
-                    className="modal-close"
-                    aria-label="Close modal"
-                />
+                <IoClose onClick={onClose} className="modal-close" aria-label="Close modal" />
 
                 <p className='modal-title'>How To Play ?</p>
                 <p className='modal-body'>

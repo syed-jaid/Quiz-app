@@ -499,7 +499,8 @@ const Play = () => {
         }
     }
     return (
-        <div className={showQus ? 'bg-withe' : `${showResult ? 'bg-white' : 'bg-[#E3E3E1]'}`}>
+        <div className={showQus ? 'bg-withe' : `${showResult ? 'bg-white' : 'bg-[#E3E3E1]'}`}
+        >
             {quizStart &&
                 <div className='home-main-div'>
                     <BsExclamationCircle
@@ -533,20 +534,19 @@ const Play = () => {
                     </div>
                 </div>}
 
-            {/* {all Question  */}
             {(showQus) &&
-                <div className='max-w-[420px] md:max-w-[550px] p-6 mx-auto bg-white h-screen'>
+                <div className='question-div'>
 
-                    {/* Question */}
-                    <p className='text-[28px] text-start font-bold mt-3'>
+                    <p className='question-text'>
                         Q{questionIndex + 1}.
                     </p>
+
                     <motion.div
                         initial={{ opacity: 0, scale: 1 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
+                        transition={{ duration: 1.2 }}
                     >
-                        <p className='text-[28px] text-start font-bold mt-2 mb-[50px]'>
+                        <p className='question-full-text'>
                             {questions?.game?.questions[questionIndex].question}
                         </p>
                     </motion.div>
@@ -559,7 +559,7 @@ const Play = () => {
                             wheel: false,
                             keyboard: false,
                             pagination: false,
-                            speed: '1200',
+                            speed: '1100',
                         }}
                         ref={splideRef}
                     >
@@ -572,7 +572,7 @@ const Play = () => {
                                     <div key={answer} className='mr-2'>
                                         {!answerChecking ?
                                             <div
-                                                className='px-[25px] py-3 mb-7 rounded-full border-[1px] border-black text-black cursor-pointer'
+                                                className='option-div'
                                                 onClick={() => {
                                                     !givenAnswerIndex1 && singleQuestionAnswerCheck(answer)
                                                     !givenAnswerIndex1 && setGivenAnswerIndex1(answer)
@@ -591,43 +591,45 @@ const Play = () => {
                                                 </p>
                                             </div>
                                             :
-                                            <>
-                                                <div onClick={() => {
+                                            <div
+                                                onClick={() => {
                                                     (!givenAnswerIndex2 || !givenAnswerIndex3) && singleQuestionAnswerCheck(answer);
                                                     { (tryNumber === 1) && setGivenAnswerIndex2(answer) }
                                                     { (tryNumber === 2) && setGivenAnswerIndex3(answer) }
-                                                    { (!givenAnswerIndex2 || !givenAnswerIndex3) && setOptionSelected(answer, tryNumber) }
+                                                    {
+                                                        (!givenAnswerIndex2 || !givenAnswerIndex3)
+                                                            && setOptionSelected(answer, tryNumber)
+                                                    }
                                                 }}
-                                                    className={`px-[25px] py-3 mb-7 rounded-full text-black
-                                         ${`${questions?.game?.questions[questionIndex]?.corr_ans}`
-                                                            === answer
+                                                className={`single-option  
+                                                       ${`${questions?.game?.questions[questionIndex]?.corr_ans}` === answer
+                                                        ?
+                                                        `${showRightAns ? 'option-green' : 'option-black'}`
+                                                        :
+                                                        `${(answer === givenAnswerIndex1 || answer === givenAnswerIndex2 ||
+                                                            answer === givenAnswerIndex3)
                                                             ?
-                                                            `${showRightAns ? 'option-shadow border-[1px] border-[#06BF66] bg-[#06BF66] text-white' : 'border-[1px] border-black'}`
+                                                            'option-red'
                                                             :
-                                                            `${(answer === givenAnswerIndex1
-                                                                || answer === givenAnswerIndex2
-                                                                || answer === givenAnswerIndex3) ?
-                                                                'option-shadow border-[1px] border-[#CD0000] bg-[#CD0000] text-white'
+                                                            `${showRightAns ?
+                                                                'option-gray'
                                                                 :
-                                                                `${showRightAns ?
-                                                                    'border-[2px] border-[#A9A9A9] text-[#A9A9A9]'
-                                                                    :
-                                                                    'border-[1px] border-black'}`
+                                                                'option-black'
                                                             }`
-                                                        } duration-100`}
-                                                >
-                                                    <p className='font-bold text-[18px]' >
-                                                        <span className='mr-2'>
-                                                            {index === 0 && 'A.'}
-                                                            {index === 1 && 'B.'}
-                                                            {index === 2 && 'C.'}
-                                                            {index === 3 && 'D.'}
-                                                        </span>
-                                                        {'  '}
-                                                        {answer}
-                                                    </p>
-                                                </div>
-                                            </>
+                                                        }`
+                                                    }`}
+                                            >
+                                                <p className='font-bold text-[18px]' >
+                                                    <span className='mr-2'>
+                                                        {index === 0 && 'A.'}
+                                                        {index === 1 && 'B.'}
+                                                        {index === 2 && 'C.'}
+                                                        {index === 3 && 'D.'}
+                                                    </span>
+                                                    {'  '}
+                                                    {answer}
+                                                </p>
+                                            </div>
                                         }
                                     </div>
                                 </motion.div>

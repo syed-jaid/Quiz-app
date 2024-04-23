@@ -11,8 +11,10 @@ const SettingsItems = ({ setShowSettings }) => {
 
     return (
         <div className='setting-div'>
+
             <IoClose onClick={() => setShowSettings(false)} className='close-icon' />
             <p className='setting-text'>SETTING</p>
+
             {infoSections.map((section) => (
                 <div key={section.id} className='setting-section'>
                     <p>{section.title}</p>
