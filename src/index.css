@@ -652,6 +652,7 @@ body {
   padding-bottom: 0.75rem;
   margin-bottom: 1.75rem;
   border-radius: 9999px;
+  color: #000;
 }
 
 .option-black {
@@ -659,21 +660,21 @@ body {
 }
 
 .option-green {
-  color: white;
+  color: white !important;
   background: #06BF66;
   border: 1px solid #06BF66;
   box-shadow: 0px 5px 6px #00000040;
 }
 
 .option-red {
-  color: white;
+  color: white !important;
   background: #CD0000;
   border: 1px solid #CD0000;
   box-shadow: 0px 5px 6px #00000040;
 }
 
 .option-gray {
-  color: white;
+  color: rgb(0, 0, 0) !important;
   background: transparent;
   border: 2px solid #A9A9A9;
   box-shadow: 0px 5px 6px #00000040;
