@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, } from 'react-router-dom';
-import HomePage from './components/app/home/home';
-import Play from './components/app/play/play';
-import Auth from './components/app/auth/auth';
+import HomePage from './components/home/home';
+import Play from './components/play/play';
+import Auth from './components/auth/auth';
 
 function App() {
   return (
