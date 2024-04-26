@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HiShare } from "react-icons/hi";
 
-const Congratulation = () => {
+const Congratulation = ({ questions }) => {
 
     const [result, setResult] = useState()
 
@@ -10,13 +10,13 @@ const Congratulation = () => {
         UserObject = JSON.parse(UserObject)
         setResult(UserObject)
     }, [])
-
+    console.log(questions)
     return (
         <div className="congratulations-container">
             <p className='congratulation-header'>
                 {result?.game_data?.game.currentScore === 0 ? 'Try Harder Next Time' : 'Congratulations!'}
             </p>
-            <p className='stats'>
+            <p>
                 STATS
             </p>
 
@@ -29,7 +29,7 @@ const Congratulation = () => {
                 </div>
                 <div>
                     <p className="large-text large-text-sm">
-                        {((result?.game_data?.game.currentScore / 3) * 3 * 100 / 9).toFixed(0)}
+                        {((result?.game_data?.game.currentScore / 3) * 3 * 100 / (3 * questions.length)).toFixed(0)}
                     </p>
                     <p className="small-text small-text-sm">Score %</p>
                 </div>

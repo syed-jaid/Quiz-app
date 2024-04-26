@@ -482,14 +482,30 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  overflow-y: auto;
-  max-width: 800px;
+  max-width: 500px;
   margin-left: auto;
   margin-right: auto;
+  /* padding-top: 50px; */
+}
+
+.quiz-img-div-Landscape {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  /* padding-top: 50px; */
 }
 
 .exclamation-icon {
   font-size: 23px;
+  padding: 4px;
+  background: #121212B2;
+  border-radius: 99px;
+  color: white;
   position: absolute;
   top: 7px;
   left: 10px;
@@ -657,6 +673,6 @@ body {
 .option-gray {
   color: rgb(0, 0, 0) !important;
   background: transparent;
-  border: 2px solid #A9A9A9;
+  border: 1px solid black;
   box-shadow: 0px 5px 6px #00000040;
 }

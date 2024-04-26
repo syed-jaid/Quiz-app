@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { BsExclamationCircle } from "react-icons/bs";
+import React, { useEffect, useRef, useState } from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
+import { FaExclamation } from "react-icons/fa6";
 import '@splidejs/splide/dist/css/splide.min.css';
 import InnerImageZoom from 'react-inner-image-zoom';
 import ClockTimer from './clock';
@@ -29,6 +29,32 @@ const Play = () => {
     const [running, setRunning] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [animate, setAnimate] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [isLandscape, setIsLandscape] = useState(false);
+
+    useEffect(() => {
+        const mobileMediaQuery = window.matchMedia("(max-width: 900px)");
+        const landscapeMediaQuery = window.matchMedia("(orientation: landscape)");
+
+        const handleMobileMediaQueryChange = (mq) => {
+            setIsMobile(mq.matches);
+        };
+
+        const handleLandscapeMediaQueryChange = (mq) => {
+            setIsLandscape(mq.matches);
+        };
+
+        setIsMobile(mobileMediaQuery.matches);
+        setIsLandscape(landscapeMediaQuery.matches);
+
+        mobileMediaQuery.addListener(handleMobileMediaQueryChange);
+        landscapeMediaQuery.addListener(handleLandscapeMediaQueryChange);
+
+        return () => {
+            mobileMediaQuery.removeListener(handleMobileMediaQueryChange);
+            landscapeMediaQuery.removeListener(handleLandscapeMediaQueryChange);
+        };
+    }, []);
 
     const handleCountdown = (seconds) => {
         setCount(seconds);
@@ -142,6 +168,10 @@ const Play = () => {
                         handleCountdown(data?.durationInSecs)
                         setQuizStart(true)
                         pictureSeen(false)
+                        const timer = setTimeout(() => {
+                            pictureSeen(true)
+                        }, 10000);
+                        return () => clearTimeout(timer);
                     }
                 } catch (error) {
                     console.error("Could not fetch the data", error);
@@ -149,12 +179,12 @@ const Play = () => {
             };
             fetchData();
         }
+
     }, []);
 
     const pictureSeen = (skip) => {
         let UserObject = localStorage.getItem('UserGamePlay')
         UserObject = JSON.parse(UserObject)
-
         const { game_data, puzzle_id, timestamp } = UserObject;
         const { gameState, hasSeenPicture, currentQuestionIndex, currentScore, status, id, timestamps } = game_data.game;
         const { stats } = game_data;
@@ -164,9 +194,9 @@ const Play = () => {
                     game: {
                         gameState: gameState,
                         hasSeenPicture: 1,
-                        currentQuestionIndex: 0,
-                        currentScore: 0,
-                        id: questions?.id,
+                        currentQuestionIndex: currentQuestionIndex,
+                        currentScore: currentScore,
+                        id: id,
                         status: "IN_PROGRESS",
                         timestamps: {
                             lastCompleted: timestamps.lastCompleted,
@@ -184,9 +214,6 @@ const Play = () => {
                 timestamp: timestamp
             };
             localStorage.setItem('UserGamePlay', JSON.stringify(UserGamePlayObject));
-        }
-        else {
-
         }
     }
 
@@ -498,12 +525,13 @@ const Play = () => {
             }
         }
     }
+
     return (
         <div className={showQus ? 'bg-withe' : `${showResult ? 'bg-white' : 'bg-[#E3E3E1]'}`}
         >
             {quizStart &&
                 <div className='home-main-div'>
-                    <BsExclamationCircle
+                    <FaExclamation
                         className='exclamation-icon'
                         onClick={() => setIsModalOpen(true)}
                     />
@@ -524,7 +552,7 @@ const Play = () => {
                         Skip
                     </button>
 
-                    <div className='quiz-img-div'>
+                    {!isMobile ? <div className='quiz-img-div'>
                         <InnerImageZoom
                             src={questions?.game?.pic_url}
                             zoomSrc={questions?.game?.pic_url}
@@ -532,6 +560,11 @@ const Play = () => {
                             zoomPreload={true}
                         />
                     </div>
+                        :
+                        <div className={isLandscape ? 'quiz-img-div-Landscape' : 'quiz-img-div'}>
+                            <img src={questions?.game?.pic_url} alt="" />
+                        </div>
+                    }
                 </div>}
 
             {(showQus) &&
@@ -638,7 +671,7 @@ const Play = () => {
                     </Splide>
                 </div>
             }
-            {showResult && <Congratulation />}
+            {showResult && <Congratulation questions={questions?.game?.questions} />}
             <Toaster />
         </div>
     );
