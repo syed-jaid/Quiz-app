@@ -481,11 +481,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100%;
   max-width: 500px;
   margin-left: auto;
   margin-right: auto;
-  /* padding-top: 50px; */
+}
+
+.quiz-img {
+  height: 100vh;
 }
 
 .quiz-img-div-Landscape {
@@ -640,6 +643,7 @@ body {
   border: 1px solid black;
   color: black;
   cursor: pointer;
+  box-shadow: 0px 5px 6px #00000040;
 }
 
 .single-option {
@@ -654,6 +658,7 @@ body {
 
 .option-black {
   border: 1px solid black;
+  box-shadow: 0px 5px 6px #00000040;
 }
 
 .option-green {

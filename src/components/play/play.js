@@ -33,7 +33,7 @@ const Play = () => {
     const [isLandscape, setIsLandscape] = useState(false);
 
     useEffect(() => {
-        const mobileMediaQuery = window.matchMedia("(max-width: 900px)");
+        const mobileMediaQuery = window.matchMedia("(max-width: 1000px)");
         const landscapeMediaQuery = window.matchMedia("(orientation: landscape)");
 
         const handleMobileMediaQueryChange = (mq) => {
@@ -82,6 +82,7 @@ const Play = () => {
                     const data = await response.json();
                     if (UserGamePlayObject.game_data.game.status === 'COMPLETED') {
                         setShowResult(true)
+                        setQuestions(data);
                     }
                     else {
                         if (!showQus) {
@@ -94,7 +95,6 @@ const Play = () => {
                             }
                             else {
                                 if (UserGamePlayState?.length) {
-
                                     if (UserGamePlayState.length === 1) {
                                         setGivenAnswerIndex1(UserGamePlayState[0])
                                         setAnswerChecking(true)
@@ -554,6 +554,7 @@ const Play = () => {
 
                     {!isMobile ? <div className='quiz-img-div'>
                         <InnerImageZoom
+                            className='quiz-img'
                             src={questions?.game?.pic_url}
                             zoomSrc={questions?.game?.pic_url}
                             zoomType="hover"
@@ -562,7 +563,7 @@ const Play = () => {
                     </div>
                         :
                         <div className={isLandscape ? 'quiz-img-div-Landscape' : 'quiz-img-div'}>
-                            <img src={questions?.game?.pic_url} alt="" />
+                            <img className={isLandscape ? '' : 'quiz-img'} src={questions?.game?.pic_url} alt="" />
                         </div>
                     }
                 </div>}
@@ -618,6 +619,8 @@ const Play = () => {
                                                         {index === 1 && ' B.  '}
                                                         {index === 2 && ' C.  '}
                                                         {index === 3 && ' D.  '}
+                                                        {index === 4 && ' E.  '}
+                                                        {index === 5 && ' F.  '}
                                                     </span>
                                                     {'  '}
                                                     {answer}
@@ -654,10 +657,12 @@ const Play = () => {
                                             >
                                                 <p className='font-bold text-[18px]' >
                                                     <span className='mr-2'>
-                                                        {index === 0 && 'A.'}
-                                                        {index === 1 && 'B.'}
-                                                        {index === 2 && 'C.'}
-                                                        {index === 3 && 'D.'}
+                                                        {index === 0 && ' A.  '}
+                                                        {index === 1 && ' B.  '}
+                                                        {index === 2 && ' C.  '}
+                                                        {index === 3 && ' D.  '}
+                                                        {index === 4 && ' E.  '}
+                                                        {index === 5 && ' F.  '}
                                                     </span>
                                                     {'  '}
                                                     {answer}
