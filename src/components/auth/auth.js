@@ -14,7 +14,7 @@ const Auth = ({ user }) => {
             navigate("/")
             localStorage.setItem('userLogIn', true)
         }
-    }, [])
+    }, [user])
 
     return (
         <>

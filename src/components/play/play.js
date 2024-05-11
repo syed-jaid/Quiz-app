@@ -2,13 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { FaExclamation } from "react-icons/fa6";
 import '@splidejs/splide/dist/css/splide.min.css';
-import InnerImageZoom from 'react-inner-image-zoom';
 import ClockTimer from './clock';
-import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
 import Congratulation from './congratulation';
 import ExclamationModal from './exclamationModal';
 import toast, { Toaster } from 'react-hot-toast';
 import { motion } from 'framer-motion';
+import ZoomableImage from './ImageZoom';
 
 const Play = () => {
     const splideRef = useRef();
@@ -30,29 +29,18 @@ const Play = () => {
     const [showResult, setShowResult] = useState(false);
     const [animate, setAnimate] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-    const [isLandscape, setIsLandscape] = useState(false);
 
     useEffect(() => {
         const mobileMediaQuery = window.matchMedia("(max-width: 1000px)");
-        const landscapeMediaQuery = window.matchMedia("(orientation: landscape)");
 
         const handleMobileMediaQueryChange = (mq) => {
             setIsMobile(mq.matches);
         };
 
-        const handleLandscapeMediaQueryChange = (mq) => {
-            setIsLandscape(mq.matches);
-        };
-
         setIsMobile(mobileMediaQuery.matches);
-        setIsLandscape(landscapeMediaQuery.matches);
-
         mobileMediaQuery.addListener(handleMobileMediaQueryChange);
-        landscapeMediaQuery.addListener(handleLandscapeMediaQueryChange);
-
         return () => {
             mobileMediaQuery.removeListener(handleMobileMediaQueryChange);
-            landscapeMediaQuery.removeListener(handleLandscapeMediaQueryChange);
         };
     }, []);
 
@@ -186,7 +174,7 @@ const Play = () => {
         let UserObject = localStorage.getItem('UserGamePlay')
         UserObject = JSON.parse(UserObject)
         const { game_data, puzzle_id, timestamp } = UserObject;
-        const { gameState, hasSeenPicture, currentQuestionIndex, currentScore, status, id, timestamps } = game_data.game;
+        const { gameState, currentQuestionIndex, currentScore, id, timestamps } = game_data.game;
         const { stats } = game_data;
         if (skip) {
             let UserGamePlayObject = {
@@ -532,7 +520,7 @@ const Play = () => {
             {quizStart &&
                 <div className='home-main-div'>
                     <FaExclamation
-                        className='exclamation-icon'
+                        className={isMobile ? 'exclamation-icon-mobile' : 'exclamation-icon'}
                         onClick={() => setIsModalOpen(true)}
                     />
                     <ExclamationModal
@@ -540,10 +528,10 @@ const Play = () => {
                         onClose={() => setIsModalOpen(false)}
                     />
 
-                    <ClockTimer {...{ count, running, setCount }} />
+                    <ClockTimer {...{ count, running, setCount, isMobile }} />
 
                     <button
-                        className='skip-btn'
+                        className={isMobile ? 'skip-btn-mobile' : 'skip-btn'}
                         onClick={() => {
                             setCount(0)
                             pictureSeen(true)
@@ -552,18 +540,23 @@ const Play = () => {
                         Skip
                     </button>
 
-                    {!isMobile ? <div className='quiz-img-div'>
-                        <InnerImageZoom
-                            className='quiz-img'
+                    {!isMobile ?
+                        <ZoomableImage
                             src={questions?.game?.pic_url}
-                            zoomSrc={questions?.game?.pic_url}
-                            zoomType="hover"
-                            zoomPreload={true}
-                        />
-                    </div>
+                            // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
+                            // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
+                            // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
+                            imgW='100%' imgH='100vh' />
                         :
-                        <div className={isLandscape ? 'quiz-img-div-Landscape' : 'quiz-img-div'}>
-                            <img className={isLandscape ? '' : 'quiz-img'} src={questions?.game?.pic_url} alt="" />
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                            <img
+                                style={{ width: '100vw' }}
+                                src={questions?.game?.pic_url}
+                                // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
+                                // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
+                                // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
+                                alt="test"
+                            />
                         </div>
                     }
                 </div>}
@@ -630,12 +623,9 @@ const Play = () => {
                                             <div
                                                 onClick={() => {
                                                     (!givenAnswerIndex2 || !givenAnswerIndex3) && singleQuestionAnswerCheck(answer);
-                                                    { (tryNumber === 1) && setGivenAnswerIndex2(answer) }
-                                                    { (tryNumber === 2) && setGivenAnswerIndex3(answer) }
-                                                    {
-                                                        (!givenAnswerIndex2 || !givenAnswerIndex3)
-                                                            && setOptionSelected(answer, tryNumber)
-                                                    }
+                                                    (tryNumber === 1) && setGivenAnswerIndex2(answer);
+                                                    (tryNumber === 2) && setGivenAnswerIndex3(answer);
+                                                    (!givenAnswerIndex2 || !givenAnswerIndex3) && setOptionSelected(answer, tryNumber);
                                                 }}
                                                 className={`single-option  
                                                        ${`${questions?.game?.questions[questionIndex]?.corr_ans}` === answer
