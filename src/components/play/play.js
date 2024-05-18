@@ -571,8 +571,8 @@ const Play = () => {
                         </button>
                         <div style={{ display: 'inline-block' }} ref={divRef}>
                             <ZoomableImage
-                                // src={questions?.game?.pic_url}
-                                src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
+                                src={questions?.game?.pic_url}
+                                // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
                                 // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
                                 // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
                                 imgW='100%' imgH='100vh' />
@@ -603,10 +603,10 @@ const Play = () => {
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
                                 <img
                                     style={{ maxHeight: '100vh' }}
-                                    // src={questions?.game?.pic_url}
+                                    src={questions?.game?.pic_url}
                                     // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
                                     // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
-                                    src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
+                                    // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
                                     alt="test"
                                 />
                             </div>
