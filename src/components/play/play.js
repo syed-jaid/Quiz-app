@@ -178,8 +178,7 @@ const Play = () => {
                         localStorage.setItem('UserGamePlay', JSON.stringify(UserGamePlayObject));
                         setQuestions(data);
                         setQuestionIndex(0)
-                        // handleCountdown(data?.durationInSecs)
-                        handleCountdown(4000)
+                        handleCountdown(data?.durationInSecs)
                         setQuizStart(true)
                         pictureSeen(false)
                         const timet = setTimeout(() => {
@@ -546,42 +545,12 @@ const Play = () => {
     return (
         <div className={showQus ? 'bg-withe' : `${showResult ? 'bg-white' : 'bg-[#E3E3E1]'}`}
         >
-            {quizStart &&
-                <>
-                    {!isMobile ? <div className='home-main-div' style={{ maxWidth: width === 0 ? 'auto' : width }} >
-                        <FaExclamation
-                            className={'exclamation-icon'}
-                            onClick={() => setIsModalOpen(true)}
-                        />
-                        <ExclamationModal
-                            isOpen={isModalOpen}
-                            onClose={() => setIsModalOpen(false)}
-                        />
-
-                        <ClockTimer {...{ count, running, setCount, isMobile }} />
-
-                        <button
-                            className={'skip-btn'}
-                            onClick={() => {
-                                setCount(0)
-                                pictureSeen(true)
-                            }}
-                        >
-                            Skip
-                        </button>
-                        <div style={{ display: 'inline-block' }} ref={divRef}>
-                            <ZoomableImage
-                                src={questions?.game?.pic_url}
-                                // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
-                                // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
-                                // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
-                                imgW='100%' imgH='100vh' />
-                        </div>
-                    </div>
-                        :
-                        <div className='home-main-div'>
+            <div className='main-app-div'>
+                {quizStart &&
+                    <>
+                        {!isMobile ? <div className='home-main-div' style={{ maxWidth: width === 0 ? 'auto' : width }} >
                             <FaExclamation
-                                className={'exclamation-icon-mobile'}
+                                className={'exclamation-icon'}
                                 onClick={() => setIsModalOpen(true)}
                             />
                             <ExclamationModal
@@ -592,7 +561,7 @@ const Play = () => {
                             <ClockTimer {...{ count, running, setCount, isMobile }} />
 
                             <button
-                                className={'skip-btn-mobile'}
+                                className={'skip-btn'}
                                 onClick={() => {
                                     setCount(0)
                                     pictureSeen(true)
@@ -600,19 +569,52 @@ const Play = () => {
                             >
                                 Skip
                             </button>
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                                <img
-                                    style={{ maxHeight: '100vh' }}
+                            <div style={{ display: 'inline-block' }} ref={divRef}>
+                                <ZoomableImage
                                     src={questions?.game?.pic_url}
                                     // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
                                     // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
                                     // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
-                                    alt="test"
-                                />
+                                    imgW='100%' imgH='100vh' />
                             </div>
-                        </div>}
-                </>
-            }
+                        </div>
+                            :
+                            <div className='home-main-div'>
+                                <FaExclamation
+                                    className={'exclamation-icon-mobile'}
+                                    onClick={() => setIsModalOpen(true)}
+                                />
+                                <ExclamationModal
+                                    isOpen={isModalOpen}
+                                    onClose={() => setIsModalOpen(false)}
+                                />
+
+                                <ClockTimer {...{ count, running, setCount, isMobile }} />
+
+                                <button
+                                    className={'skip-btn-mobile'}
+                                    onClick={() => {
+                                        setCount(0)
+                                        pictureSeen(true)
+                                    }}
+                                >
+                                    Skip
+                                </button>
+                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                                    <img
+                                        style={{ maxHeight: '100vh' }}
+                                        src={questions?.game?.pic_url}
+                                        // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
+                                        // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
+                                        // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
+                                        alt="test"
+                                    />
+                                </div>
+                            </div>}
+                    </>
+                }
+            </div>
+
 
             {(showQus) &&
                 <div className='question-div'>

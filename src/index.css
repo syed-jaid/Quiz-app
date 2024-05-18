@@ -13,6 +13,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.main-app-div {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .rotate-icon {
   transform: rotate(-60deg);
   transition: transform 0.5s ease;
@@ -32,7 +38,6 @@ body {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  background-color: #E3E3E1;
   position: relative;
   min-height: 100vh;
 }
