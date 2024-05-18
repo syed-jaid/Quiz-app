@@ -261,19 +261,6 @@ body {
   }
 }
 
-@media (min-width: 1024px) {
-
-  .home-main-div {
-    width: 890px;
-  }
-}
-
-@media (min-width: 1280px) {
-
-  .home-main-div {
-    width: 1000px;
-  }
-}
 
 .modal-overlay {
   z-index: 1;
