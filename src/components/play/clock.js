@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const ClockTimer = ({ count, running, setCount }) => {
+const ClockTimer = ({ count, running, setCount, isMobile }) => {
     const timerRef = useRef(null);
 
     useEffect(() => {
@@ -14,19 +14,20 @@ const ClockTimer = ({ count, running, setCount }) => {
     }, [running, setCount]);
     return (
         <div>
-            <Clock time={count} />
+            <Clock time={count} isMobile={isMobile} />
         </div>
     );
 };
 export default ClockTimer;
 
-function Clock({ time }) {
+function Clock({ time, isMobile }) {
 
     return (
-        <div className='timer-div flex justify-center'>
+        <div className={isMobile ? 'timer-div-mobile' : 'timer-div'
+        }>
             <h1 className='timer-display'>
                 {time}s
             </h1>
-        </div>
+        </div >
     );
 }
