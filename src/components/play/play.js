@@ -29,9 +29,27 @@ const Play = () => {
     const [showResult, setShowResult] = useState(false);
     const [animate, setAnimate] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const divRef = useRef(null);
+    const [width, setWidth] = useState(0);
+
+    // Function to update the width
+    const updateWidth = () => {
+        if (divRef.current) {
+            setWidth(divRef.current.offsetWidth);
+        }
+    };
 
     useEffect(() => {
-        const mobileMediaQuery = window.matchMedia("(max-width: 1000px)");
+        updateWidth();
+
+        window.addEventListener('resize', updateWidth);
+        return () => {
+            window.removeEventListener('resize', updateWidth);
+        };
+    }, []);
+
+    useEffect(() => {
+        const mobileMediaQuery = window.matchMedia("(max-width: 800px)");
 
         const handleMobileMediaQueryChange = (mq) => {
             setIsMobile(mq.matches);
@@ -44,17 +62,7 @@ const Play = () => {
         };
     }, []);
 
-    const handleCountdown = (seconds) => {
-        setCount(seconds);
-        setRunning(true)
-    };
-
-    const goToRight = () => {
-        splideRef.current.splide.go('>');
-    };
-
     useEffect(() => {
-
         let UserGamePlayObject = localStorage.getItem('UserGamePlay')
         UserGamePlayObject = JSON.parse(UserGamePlayObject)
         let UserGamePlayState = localStorage.getItem('UserGameState')
@@ -80,6 +88,10 @@ const Play = () => {
                                 handleCountdown(data?.durationInSecs)
                                 setQuizStart(true)
                                 pictureSeen(false)
+                                const timet = setTimeout(() => {
+                                    updateWidth()
+                                }, 200);
+                                return () => clearTimeout(timet);
                             }
                             else {
                                 if (UserGamePlayState?.length) {
@@ -104,6 +116,10 @@ const Play = () => {
                                 setQuestions(data);
                                 setQuestionIndex(UserGamePlayObject.game_data.game.currentQuestionIndex)
                                 setQuizStart(true)
+                                const timet = setTimeout(() => {
+                                    updateWidth()
+                                }, 200);
+                                return () => clearTimeout(timet);
                             }
                         }
                     }
@@ -156,10 +172,13 @@ const Play = () => {
                         handleCountdown(data?.durationInSecs)
                         setQuizStart(true)
                         pictureSeen(false)
+                        const timet = setTimeout(() => {
+                            updateWidth()
+                        }, 200);
                         const timer = setTimeout(() => {
                             pictureSeen(true)
                         }, 10000);
-                        return () => clearTimeout(timer);
+                        return () => clearTimeout(timer, timet);
                     }
                 } catch (error) {
                     console.error("Could not fetch the data", error);
@@ -167,8 +186,16 @@ const Play = () => {
             };
             fetchData();
         }
-
     }, []);
+
+    const handleCountdown = (seconds) => {
+        setCount(seconds);
+        setRunning(true)
+    };
+
+    const goToRight = () => {
+        splideRef.current.splide.go('>');
+    };
 
     const pictureSeen = (skip) => {
         let UserObject = localStorage.getItem('UserGamePlay')
@@ -267,7 +294,7 @@ const Play = () => {
 
         let UserGamePlayState = localStorage.getItem('UserGameState')
         UserGamePlayState = JSON.parse(UserGamePlayState)
-
+        console.log('under the fnc', UserGamePlayState)
         if (tryNumber === 0) {
             let UserGame = [answer]
             localStorage.setItem('UserGameState', JSON.stringify(UserGame));
@@ -287,7 +314,9 @@ const Play = () => {
         setAnswerChecking(true)
         let UserObject = localStorage.getItem('UserGamePlay')
         UserObject = JSON.parse(UserObject)
-
+        let UserGamePlayState = localStorage.getItem('UserGameState')
+        UserGamePlayState = JSON.parse(UserGamePlayState)
+        console.log(UserGamePlayState)
         const { game_data, puzzle_id, timestamp } = UserObject;
         const { gameState, hasSeenPicture, currentQuestionIndex, currentScore, id, timestamps } = game_data.game;
         const { stats } = game_data;
@@ -307,7 +336,7 @@ const Play = () => {
             default:
                 newCurrentScore = currentScore;
         }
-        console.log(newCurrentScore, currentScore)
+
         if (!showRightAns) {
             if (questions?.game?.questions.length === questionIndex + 1) {
                 if (userAnswer === `${questions?.game?.questions[questionIndex]?.corr_ans}`) {
@@ -513,53 +542,79 @@ const Play = () => {
             }
         }
     }
-
     return (
         <div className={showQus ? 'bg-withe' : `${showResult ? 'bg-white' : 'bg-[#E3E3E1]'}`}
         >
-            {quizStart &&
-                <div className='home-main-div'>
-                    <FaExclamation
-                        className={isMobile ? 'exclamation-icon-mobile' : 'exclamation-icon'}
-                        onClick={() => setIsModalOpen(true)}
-                    />
-                    <ExclamationModal
-                        isOpen={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
-                    />
-
-                    <ClockTimer {...{ count, running, setCount, isMobile }} />
-
-                    <button
-                        className={isMobile ? 'skip-btn-mobile' : 'skip-btn'}
-                        onClick={() => {
-                            setCount(0)
-                            pictureSeen(true)
-                        }}
-                    >
-                        Skip
-                    </button>
-
-                    {!isMobile ?
-                        <ZoomableImage
-                            src={questions?.game?.pic_url}
-                            // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
-                            // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
-                            // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
-                            imgW='100%' imgH='100vh' />
-                        :
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                            <img
-                                style={{ width: '100vw' }}
-                                src={questions?.game?.pic_url}
-                                // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
-                                // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
-                                // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
-                                alt="test"
+            <div className='main-app-div'>
+                {quizStart &&
+                    <>
+                        {!isMobile ? <div className='home-main-div' style={{ maxWidth: width === 0 ? 'auto' : width }} >
+                            <FaExclamation
+                                className={'exclamation-icon'}
+                                onClick={() => setIsModalOpen(true)}
                             />
+                            <ExclamationModal
+                                isOpen={isModalOpen}
+                                onClose={() => setIsModalOpen(false)}
+                            />
+
+                            <ClockTimer {...{ count, running, setCount, isMobile }} />
+
+                            <button
+                                className={'skip-btn'}
+                                onClick={() => {
+                                    setCount(0)
+                                    pictureSeen(true)
+                                }}
+                            >
+                                Skip
+                            </button>
+                            <div style={{ display: 'inline-block' }} ref={divRef}>
+                                <ZoomableImage
+                                    src={questions?.game?.pic_url}
+                                    // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
+                                    // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
+                                    // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
+                                    imgW='100%' imgH='100vh' />
+                            </div>
                         </div>
-                    }
-                </div>}
+                            :
+                            <div className='home-main-div'>
+                                <FaExclamation
+                                    className={'exclamation-icon-mobile'}
+                                    onClick={() => setIsModalOpen(true)}
+                                />
+                                <ExclamationModal
+                                    isOpen={isModalOpen}
+                                    onClose={() => setIsModalOpen(false)}
+                                />
+
+                                <ClockTimer {...{ count, running, setCount, isMobile }} />
+
+                                <button
+                                    className={'skip-btn-mobile'}
+                                    onClick={() => {
+                                        setCount(0)
+                                        pictureSeen(true)
+                                    }}
+                                >
+                                    Skip
+                                </button>
+                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                                    <img
+                                        style={{ maxHeight: '100vh' }}
+                                        src={questions?.game?.pic_url}
+                                        // src='https://i.ibb.co/Y7bBsw6/img1080x1920.png'
+                                        // src='https://i.ibb.co/1dHLDYP/img1080x608.png'
+                                        // src='https://i.ibb.co/pQTG1qy/img1080x1350.png'
+                                        alt="test"
+                                    />
+                                </div>
+                            </div>}
+                    </>
+                }
+            </div>
+
 
             {(showQus) &&
                 <div className='question-div'>

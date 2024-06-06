@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { HiShare } from "react-icons/hi";
 import graph from "../../media/graph bars.png";
 import aero from "../../media/arrow.png";
-import SettingsItems from "../home/settingsItems";
 import CongratulationModal from "./congratulationModal";
 
 const Congratulation = ({ questions }) => {
