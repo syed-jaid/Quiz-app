@@ -239,6 +239,41 @@ const Play = () => {
         }
     }
 
+    const storUserState = () => {
+        let UserGamePlayState = localStorage.getItem('UserGameState')
+        UserGamePlayState = JSON.parse(UserGamePlayState)
+        let UserObject = localStorage.getItem('UserGamePlay')
+        UserObject = JSON.parse(UserObject)
+        const { game_data, puzzle_id, timestamp } = UserObject;
+        const { gameState, hasSeenPicture, currentQuestionIndex, currentScore, id, status, timestamps } = game_data.game;
+        const { stats } = game_data;
+        let UserGamePlayObject = {
+            game_data: {
+                game: {
+                    gameState: [...gameState, UserGamePlayState],
+                    hasSeenPicture: hasSeenPicture,
+                    currentQuestionIndex: currentQuestionIndex,
+                    currentScore: currentScore,
+                    id: id,
+                    status: status,
+                    timestamps: {
+                        lastCompleted: timestamps.lastCompleted,
+                        lastPlayed: timestamps.lastPlayed
+                    }
+                },
+                stats: {
+                    gamesPlayed: stats.gamesPlayed,
+                    currentStreak: stats.currentStreak,
+                    gamesWon: stats.gamesWon,
+                    AvgScorePercentage: stats.AvgScorePercentage,
+                }
+            },
+            puzzle_id: puzzle_id,
+            timestamp: timestamp
+        };
+        localStorage.setItem('UserGamePlay', JSON.stringify(UserGamePlayObject));
+    }
+
     const animation = () => {
         setTimeout(() => {
             setAnimate(false)
@@ -252,6 +287,7 @@ const Play = () => {
 
     const changeQuestion = () => {
         setTimeout(() => {
+            storUserState()
             setAnimate(true)
             animation()
             goToRight()
@@ -264,6 +300,7 @@ const Play = () => {
 
     const finalUpdate = () => {
         setTimeout(() => {
+            storUserState()
             setGivenAnswerIndex1(0)
             setGivenAnswerIndex2(0)
             setGivenAnswerIndex3(0)
@@ -272,8 +309,6 @@ const Play = () => {
             setAnswerChecking(false)
             setShowQus(false)
             setShowRightAns(false)
-            let UserGame = []
-            localStorage.setItem('UserGameState', JSON.stringify(UserGame));
         }, 1000);
     }
 
@@ -291,10 +326,9 @@ const Play = () => {
     };
 
     const setOptionSelected = (answer, tryCount) => {
-
         let UserGamePlayState = localStorage.getItem('UserGameState')
         UserGamePlayState = JSON.parse(UserGamePlayState)
-        console.log('under the fnc', UserGamePlayState)
+
         if (tryNumber === 0) {
             let UserGame = [answer]
             localStorage.setItem('UserGameState', JSON.stringify(UserGame));
@@ -314,9 +348,7 @@ const Play = () => {
         setAnswerChecking(true)
         let UserObject = localStorage.getItem('UserGamePlay')
         UserObject = JSON.parse(UserObject)
-        let UserGamePlayState = localStorage.getItem('UserGameState')
-        UserGamePlayState = JSON.parse(UserGamePlayState)
-        console.log(UserGamePlayState)
+
         const { game_data, puzzle_id, timestamp } = UserObject;
         const { gameState, hasSeenPicture, currentQuestionIndex, currentScore, id, timestamps } = game_data.game;
         const { stats } = game_data;

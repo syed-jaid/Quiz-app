@@ -150,10 +150,11 @@ body {
   top: 7px;
   right: 7px;
   cursor: pointer;
+  z-index: 999;
 }
 
 .close-icon:hover {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(118, 118, 118, 0.4);
 }
 
 .setting-text {
@@ -758,43 +759,66 @@ body {
   text-align: start;
 }
 
-
 .congratulationModalMain {
   z-index: 100;
-  padding: 0 0.5rem 0.75rem;
   position: absolute;
-  width: 92%;
+  width: 100%;
+  max-width: 500px;
   height: 92%;
-  top: 20px;
-  bottom: 0px;
-  right: 0px;
-  left: 0;
-
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 8px;
   background: #ffffff;
-  border: 2px solid #BABABA;
-  margin-inline: auto;
+  border: 2px solid #b9b9b9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+@media (max-width: 600px) {
+  .congratulationModalMain {
+    max-width: 93%;
+  }
+
+  .all-quiz-containerDiv {
+    padding-inline: 20px;
+  }
+
+}
+
+.slider-center {
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  padding: 20px;
+  position: relative;
 }
 
 .congratulationModal {
   margin-top: 100px;
-  border-radius: 11px;
-  margin-inline: 20px;
-  padding: 10px;
+  /* margin-inline: 20px; */
+  padding: 20px;
+}
+
+.congratulation-modal-text1 {
+  font-size: 25px;
+  font-weight: 700;
+  padding-bottom: 25px;
 }
 
 .congratulation-modal-text {
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 25px;
+  font-weight: 600;
   padding-bottom: 25px;
-
 }
 
 .congratulation-percentage {
   font-size: 52px;
-  font-weight: 300;
+  font-weight: 500;
   padding-bottom: 25px;
-  color: #BABABA !important;
+  color: #767676 !important;
 }
 
 .congratulation-bottom-text-mainDiv {
@@ -803,13 +827,39 @@ body {
 }
 
 .congratulation-bottom-text {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  color: #BABABA !important;
+  color: #797979 !important;
   width: 70%;
 }
 
+.arrow-right {
+  position: fixed;
+  right: 0px;
+  top: 50%;
+  font-size: 30px;
+  color: #5c5c5c;
+}
 
+.arrow-right:hover {
+  border-radius: 99px;
+  background: #ececec;
+  z-index: 999;
+}
+
+.arrow-left {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  font-size: 30px;
+  color: #5c5c5c;
+}
+
+.arrow-left:hover {
+  border-radius: 99px;
+  background: #ececec;
+  z-index: 999;
+}
 
 .second-slider-title {
   text-align: start;
@@ -844,32 +894,28 @@ body {
   gap: 20px;
 }
 
-
 .quiz-option-mainDiv {
   display: flex;
   justify-content: space-between;
   align-items: center;
   max-width: 350px;
   width: 100%;
-  padding-right: 20px;
-  border-radius: 16px;
-  /* background-color: #BABABA; */
+  padding: 10px 20px;
+  border-radius: 99px;
   border: 2px solid #BABABA;
 }
 
-.quiz-option-mainDiv-green {
+.quiz-option-mainDivGreen {
   display: flex;
   justify-content: space-between;
   align-items: center;
   max-width: 350px;
   width: 100%;
-  padding-right: 20px;
-  padding-inline: 20px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  border-radius: 16px;
+  padding: 10px 20px;
+  border-radius: 99px;
   background-color: #06BF66;
   border: 2px solid #06BF66;
+  color: #000000 !;
 }
 
 .quiz-option-background-parenting {
@@ -881,16 +927,6 @@ body {
   border-radius: 16px;
 
 }
-
-.quiz-option-background-parenting-full-green {
-  background-color: #06BF66;
-  padding-inline: 20px;
-  padding-top: 2.5px;
-  padding-bottom: 2.5px;
-  border-radius: 16px;
-  width: 100%;
-}
-
 
 .quiz-option {
   font-size: 16px;
@@ -906,11 +942,47 @@ body {
 
 
 .quiz-mark {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400 !important;
   color: #7A7A7A;
-
   left: 50%;
   top: 50%;
   transform-origin: center;
+}
+
+.sliderMain {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  display: flex;
+}
+
+.sliderPagination {
+  border: 1px solid #909090;
+  border-radius: 99px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-inline: auto;
+  max-width: auto;
+  margin-top: auto;
+  padding-inline: 15px;
+  gap: 5px;
+}
+
+.sliderDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: #D9D9D9;
+  border: 1px solid rgb(78, 78, 78);
+}
+
+.greenDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: #74e511;
+  border: 1px solid rgb(78, 78, 78);
 }

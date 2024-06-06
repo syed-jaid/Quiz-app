@@ -4,7 +4,6 @@ import HowToPlayModal from "./howToPlayModal";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { IoMdSettings } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import CongratulationModal from "../play/congratulationModal";
 
 const HomePage = () => {
   const [showSettings, setShowSettings] = useState(false);
@@ -28,13 +27,11 @@ const HomePage = () => {
 
   return (
     <div className="bg-[#E3E3E1]">
-      {/* <CongratulationModal></CongratulationModal> */}
       <div className="home-main-div">
         <IoMdSettings
           onClick={() => setShowSettings(!showSettings)}
-          className={`settings-icon ${
-            showSettings ? "rotate-icon-click" : "rotate-icon"
-          }`}
+          className={`settings-icon ${showSettings ? "rotate-icon-click" : "rotate-icon"
+            }`}
         />
 
         {showSettings && <SettingsItems {...{ setShowSettings }} />}
