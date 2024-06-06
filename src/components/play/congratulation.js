@@ -10,7 +10,7 @@ const Congratulation = ({ questions }) => {
         UserObject = JSON.parse(UserObject)
         setResult(UserObject)
     }, [])
-    console.log(questions)
+
     return (
         <div className="congratulations-container">
             <p className='congratulation-header'>

@@ -62,15 +62,6 @@ const Play = () => {
         };
     }, []);
 
-    const handleCountdown = (seconds) => {
-        setCount(seconds);
-        setRunning(true)
-    };
-
-    const goToRight = () => {
-        splideRef.current.splide.go('>');
-    };
-
     useEffect(() => {
         let UserGamePlayObject = localStorage.getItem('UserGamePlay')
         UserGamePlayObject = JSON.parse(UserGamePlayObject)
@@ -195,8 +186,16 @@ const Play = () => {
             };
             fetchData();
         }
-
     }, []);
+
+    const handleCountdown = (seconds) => {
+        setCount(seconds);
+        setRunning(true)
+    };
+
+    const goToRight = () => {
+        splideRef.current.splide.go('>');
+    };
 
     const pictureSeen = (skip) => {
         let UserObject = localStorage.getItem('UserGamePlay')
@@ -295,7 +294,7 @@ const Play = () => {
 
         let UserGamePlayState = localStorage.getItem('UserGameState')
         UserGamePlayState = JSON.parse(UserGamePlayState)
-
+        console.log('under the fnc', UserGamePlayState)
         if (tryNumber === 0) {
             let UserGame = [answer]
             localStorage.setItem('UserGameState', JSON.stringify(UserGame));
@@ -315,7 +314,9 @@ const Play = () => {
         setAnswerChecking(true)
         let UserObject = localStorage.getItem('UserGamePlay')
         UserObject = JSON.parse(UserObject)
-
+        let UserGamePlayState = localStorage.getItem('UserGameState')
+        UserGamePlayState = JSON.parse(UserGamePlayState)
+        console.log(UserGamePlayState)
         const { game_data, puzzle_id, timestamp } = UserObject;
         const { gameState, hasSeenPicture, currentQuestionIndex, currentScore, id, timestamps } = game_data.game;
         const { stats } = game_data;
@@ -335,7 +336,7 @@ const Play = () => {
             default:
                 newCurrentScore = currentScore;
         }
-        console.log(newCurrentScore, currentScore)
+
         if (!showRightAns) {
             if (questions?.game?.questions.length === questionIndex + 1) {
                 if (userAnswer === `${questions?.game?.questions[questionIndex]?.corr_ans}`) {
@@ -541,7 +542,6 @@ const Play = () => {
             }
         }
     }
-    console.log(width)
     return (
         <div className={showQus ? 'bg-withe' : `${showResult ? 'bg-white' : 'bg-[#E3E3E1]'}`}
         >
