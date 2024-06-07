@@ -120,6 +120,27 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
     handleSliderData(questions, gameState)
   }, [])
 
+
+  function calculateTrailPercentage(totalArray, numberOfTrie) {
+
+
+    const totalPeople = totalArray.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+
+    if (totalPeople <= 0) {
+      return 0;
+    }
+    if (numberOfTrie < 0) {
+      return 0;
+    }
+    if (numberOfTrie > totalPeople) {
+      return 0;
+    }
+    const percentage = (numberOfTrie / totalPeople) * 100;
+    return `${percentage}%`;
+  }
+
   return (
     <div className="congratulationModalMain">
       <IoClose
@@ -184,6 +205,9 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
                           </div >
                           :
                           < div className="quiz-option-mainDiv">
+                            <div style={{ width: calculateTrailPercentage(question?.trial_stats[0], question?.trial_stats[0][index]) }} className="percentageDiv" >
+
+                            </div>
                             <div className="quiz-option">
                               {index === 0 && ' A.  '}
                               {index === 1 && ' B.  '}

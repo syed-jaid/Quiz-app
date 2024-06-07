@@ -895,6 +895,8 @@ body {
 }
 
 .quiz-option-mainDiv {
+  position: relative;
+  overflow: hidden;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -903,6 +905,15 @@ body {
   padding: 10px 20px;
   border-radius: 99px;
   border: 2px solid #BABABA;
+}
+
+.percentageDiv {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  background-color: #a3a3a3;
+  opacity: 30%;
+  border-radius: 99px;
 }
 
 .quiz-option-mainDivGreen {
