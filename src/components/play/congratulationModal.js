@@ -102,22 +102,6 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
     const { game_data, } = UserObject;
     const { gameState } = game_data.game;
     const questions = finalData?.game?.questions
-
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await fetch('');
-    //     if (!response.ok) {
-    //       throw new Error(`HTTP error! status: ${response.status}`);
-
-    //     }
-    //     const data = await response.json();
-    //     console.log(data)
-    //   } catch (error) {
-    //     console.error("Could not fetch the data", error);
-    //   }
-    // };
-    // fetchData();
-
     handleSliderData(questions, gameState)
   }, [])
 
@@ -143,7 +127,6 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
   }
 
   const handleMoved = (splide, newIndex, oldIndex) => {
-    console.log(oldIndex, newIndex)
     if (newIndex > oldIndex) {
       setSliderIndex(pre => newIndex)
     } else {
