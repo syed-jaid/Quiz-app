@@ -77,6 +77,7 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
     splideRef.current.splide.go('<');
   };
 
+
   const handleSliderData = (allQuestions, gameState) => {
     const questions2 = [];
     allQuestions.forEach((question, qIndex) => {
@@ -121,7 +122,7 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
   }, [])
 
 
-  function calculateTrailPercentage(totalArray, numberOfTrie) {
+  const calculateTrailPercentage = (totalArray, numberOfTrie) => {
 
 
     const totalPeople = totalArray.reduce((accumulator, currentValue) => {
@@ -141,6 +142,15 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
     return `${percentage}%`;
   }
 
+  const handleMoved = (splide, newIndex, oldIndex) => {
+    console.log(oldIndex, newIndex)
+    if (newIndex > oldIndex) {
+      setSliderIndex(pre => newIndex)
+    } else {
+      setSliderIndex(pre => newIndex)
+    }
+  };
+
   return (
     <div className="congratulationModalMain">
       <IoClose
@@ -155,9 +165,9 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
             speed: '500',
             arrows: false,
             pagination: false,
-            drag: false,
           }}
           ref={splideRef}
+          onMoved={handleMoved}
         >
           <SplideSlide>
             <div className="congratulationModal">
@@ -189,6 +199,9 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
                         index + 1 === question?.corr_ans
                           ?
                           < div className="quiz-option-mainDivGreen">
+                            <div
+                              style={{ width: calculateTrailPercentage(question?.trial_stats[0], question?.trial_stats[0][index]) }} className="percentageDiv-Green"
+                            ></div>
                             <div className="quiz-option">
                               {index === 0 && ' A.  '}
                               {index === 1 && ' B.  '}
@@ -205,7 +218,9 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
                           </div >
                           :
                           < div className="quiz-option-mainDiv">
-                            <div style={{ width: calculateTrailPercentage(question?.trial_stats[0], question?.trial_stats[0][index]) }} className="percentageDiv" >
+                            <div
+                              style={{ width: calculateTrailPercentage(question?.trial_stats[0], question?.trial_stats[0][index]) }} className="percentageDiv"
+                            >
 
                             </div>
                             <div className="quiz-option">
