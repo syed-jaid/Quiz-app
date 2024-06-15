@@ -7,65 +7,7 @@ import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }) => {
   const [sliderIndex, setSliderIndex] = useState(0)
   const [sliderData, setSliderData] = useState([])
-  const [finalData, setFinalData] = useState({
-    id: 2031,
-    q_date: "2024-03-03",
-    durationInSecs: 120,
-    topPosition: 10,
-    game: {
-      pic_url: "https://github.com/moatsoliman/projectresources/blob/main/img1920x1080.png?raw=true",
-      questions: [
-        {
-          question: "How many red apples in the picture?",
-          answers: [
-            "1",
-            "2",
-            "3",
-            "7"
-          ],
-          corr_ans: 1,
-          trial_stats:
-            [ // The size of this array will be equal to the number of answer choices - 1 which will be equal to how many trials each user gets. If the number of answer choices is only 1 then all users only get 1 trial
-              [500, 300, 100, 5], //First trial - each position represents one of the 4 answer choices. For example in first trial 500 people selected the answer in position 1, 300 people selected answer in position 2
-              [100, 50, 80, 2], //2nd trial
-              [30, 4, 4, 1], //3rd trial
-            ]
-        },
-        {
-          question: "How many oranges in the picture?",
-          answers: [
-            "3",
-            "8",
-            "1",
-            "0"
-          ],
-          corr_ans: 1,
-          trial_stats:
-            [ // The size of this array will be equal to the number of answer choices - 1 which will be equal to how many trials each user gets. If the number of answer choices is only 1 then all users only get 1 trial
-              [100, 200, 50, 3], //First trial - each position represents one of the 4 answer choices. For example in first trial 500 people selected the answer in position 1, 300 people selected answer in position 2
-              [200, 45, 80, 4], //2nd trial
-              [300, 40, 41, 1], //3rd trial
-            ]
-        },
-        {
-          question: "how many bananas in the picture?",
-          answers: [
-            "4",
-            "2",
-            "3",
-            "1"
-          ],
-          corr_ans: 4,
-          trial_stats:
-            [ // The size of this array will be equal to the number of answer choices - 1 which will be equal to how many trials each user gets. If the number of answer choices is only 1 then all users only get 1 trial
-              [300, 200, 1, 3], //First trial - each position represents one of the 4 answer choices. For example in first trial 500 people selected the answer in position 1, 300 people selected answer in position 2
-              [5, 77, 56, 4], //2nd trial
-              [45, 73, 345, 3], //3rd trial
-            ]
-        }
-      ]
-    }
-  })
+  const [finalData, setFinalData] = useState()
 
   const splideRef = useRef();
   const goToRight = () => {
@@ -102,7 +44,18 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
     const { game_data, } = UserObject;
     const { gameState } = game_data.game;
     const questions = finalData?.game?.questions
-    handleSliderData(questions, gameState)
+    const fetchData = async () => {
+      fetch('https://raw.githubusercontent.com/moatsoliman/projectresources/main/stats.json')
+        .then(response => response.json())
+        .then(data => {
+          setFinalData(data.json())
+          handleSliderData(questions, gameState)
+        })
+        .catch(error => console.error('Error fetching the data:', error));
+    };
+
+    fetchData();
+
   }, [])
 
 
