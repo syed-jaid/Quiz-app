@@ -19,43 +19,36 @@ const CongratulationModal = ({ showCongratulationModal, setCongratulationModal }
     splideRef.current.splide.go('<');
   };
 
-
-  const handleSliderData = (allQuestions, gameState) => {
-    const questions2 = [];
-    allQuestions.forEach((question, qIndex) => {
-      question.trial_stats.forEach((trialStat, tIndex) => {
-        questions2.push({
-          question: question.question,
-          answers: question.answers,
-          corr_ans: question.corr_ans,
-          MyTry: gameState[qIndex][tIndex],
-          questionNumber: qIndex,
-          tryNumber: tIndex,
-          trial_stats: [trialStat]
-        });
-      });
-    });
-    setSliderData(questions2)
-  }
-
   useEffect(() => {
     let UserObject = localStorage.getItem('UserGamePlay')
     UserObject = JSON.parse(UserObject)
     const { game_data, } = UserObject;
     const { gameState } = game_data.game;
-    const questions = finalData?.game?.questions
+
     const fetchData = async () => {
       fetch('https://raw.githubusercontent.com/moatsoliman/projectresources/main/stats.json')
         .then(response => response.json())
         .then(data => {
-          setFinalData(data.json())
-          handleSliderData(questions, gameState)
+          setFinalData(data)
+          const questions2 = [];
+          data?.game?.questions.forEach((question, qIndex) => {
+            question.trial_stats.forEach((trialStat, tIndex) => {
+              questions2.push({
+                question: question.question,
+                answers: question.answers,
+                corr_ans: question.corr_ans,
+                MyTry: gameState[qIndex][tIndex],
+                questionNumber: qIndex,
+                tryNumber: tIndex,
+                trial_stats: [trialStat]
+              });
+            });
+          });
+          setSliderData(questions2)
         })
         .catch(error => console.error('Error fetching the data:', error));
     };
-
     fetchData();
-
   }, [])
 
 
